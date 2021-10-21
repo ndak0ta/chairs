@@ -1,5 +1,6 @@
 name: Chairs
 version: '${project.version}'
 main: ndak0ta.chairs.Main
-api-version: 1.17
+api-version: 1.13
 description: A chair plugin for Mİnecraft.
+author: Ali İhsan KAHRAMAN
