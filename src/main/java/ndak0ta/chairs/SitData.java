@@ -14,12 +14,12 @@ public class SitData {
     private ArmorStand stand;
     private int task;
 
-    public SitData (Player player, Block chair) {
+    public SitData(Main main, Player player, Block chair) {
         this.player = player;
         this.chair = chair;
 
-        stand = (ArmorStand) chair.getLocation().getWorld().spawn(chair.getLocation().add(0.5D, 0.3D, 0.5D, ArmorStand.class, (settings) -> {
-            settings.setGravitiy(false);
+        stand = (ArmorStand) chair.getLocation().getWorld().spawn(chair.getLocation().add(0.5D, 0.3D, 0.5D), ArmorStand.class, (settings) -> {
+            settings.setGravity(false);
             settings.setMarker(true);
             settings.setSmall(false);
             settings.setVisible(false);
@@ -34,7 +34,7 @@ public class SitData {
                 try {
                     Object obj = stand.getClass().getMethod("getHandle").invoke(stand);
                     obj.getClass().getField("yaw").set(obj, player.getLocation().getYaw());
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e)  {
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
                     e.printStackTrace();
                 }
             }
