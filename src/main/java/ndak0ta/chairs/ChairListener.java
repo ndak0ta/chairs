@@ -12,12 +12,19 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 public class ChairListener implements Listener {
+    private SitManager sitManager;
+
+    public ChairListener(SitManager sitManager) {
+        this.sitManager = sitManager;
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getHand().equals(EquipmentSlot.HAND) && (e.getClickedBlock().getType().name().contains("STAIRS") || e.getClickedBlock().getType().name().contains("SLAB"))) {
-            if (!SitManager.isOccupied(e.getClickedBlock())) {
-                SitManager.sit(e.getPlayer(), e.getClickedBlock());
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getHand().equals(EquipmentSlot.HAND)
+                && (e.getClickedBlock().getType().name().contains("STAIRS")
+                        || e.getClickedBlock().getType().name().contains("SLAB"))) {
+            if (!sitManager.isOccupied(e.getClickedBlock())) {
+                sitManager.sit(e.getPlayer(), e.getClickedBlock());
             }
         }
     }
@@ -27,8 +34,8 @@ public class ChairListener implements Listener {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
 
-            if (SitManager.isSitting(player)) {
-                SitManager.unsit(player);
+            if (sitManager.isSitting(player)) {
+                sitManager.unsit(player);
             }
         }
     }
@@ -37,8 +44,8 @@ public class ChairListener implements Listener {
     public void onPLayerTeleport(PlayerTeleportEvent e) {
         Player player = (Player) e.getPlayer();
 
-        if (SitManager.isSitting(player)) {
-            SitManager.unsit(player);
+        if (sitManager.isSitting(player)) {
+            sitManager.unsit(player);
         }
     }
 
@@ -46,15 +53,15 @@ public class ChairListener implements Listener {
     public void onPLayerDeath(PlayerDeathEvent e) {
         Player player = (Player) e.getEntity();
 
-        if (SitManager.isSitting(player)) {
-            SitManager.unsit(player);
+        if (sitManager.isSitting(player)) {
+            sitManager.unsit(player);
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        if (SitManager.isOccupied(e.getBlock())) {
-            SitManager.unsit(e.getBlock());
+        if (sitManager.isOccupied(e.getBlock())) {
+            sitManager.unsit(e.getBlock());
         }
     }
 }

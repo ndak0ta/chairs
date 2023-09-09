@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public class SitManager {
     private static HashMap<UUID, SitData> sitting = new HashMap<>();
-    static Main main;
+    private Main main;
 
     public SitManager(Main main) {
         this.main = main;
     }
 
-    public static void sit(Player player, Block block) {
+    public void sit(Player player, Block block) {
         if (sitting.containsKey(player.getUniqueId())) {
             if (sitting.get(player.getUniqueId()).chair.equals(block)) {
                 return;
@@ -26,13 +26,14 @@ public class SitManager {
         sitting.put(player.getUniqueId(), new SitData(main, player, block));
     }
 
-    public static void unsit(Player player) {
+    public void unsit(Player player) {
         sitting.get(player.getUniqueId()).unsit();
         sitting.remove(player.getUniqueId());
     }
 
-    public static void unsit(Block chair) {
+    public void unsit(Block chair) {
         UUID remove = null;
+
         for (UUID uuid : sitting.keySet()) {
             SitData data = sitting.get(uuid);
 
@@ -48,7 +49,7 @@ public class SitManager {
         }
     }
 
-    public static boolean isOccupied(Block block) {
+    public boolean isOccupied(Block block) {
         for (SitData data : sitting.values()) {
             if (data.chair.equals(block)) {
                 return true;
@@ -57,7 +58,7 @@ public class SitManager {
         return false;
     }
 
-    public static boolean isSitting(Player player) {
+    public boolean isSitting(Player player) {
         return sitting.containsKey(player.getUniqueId());
     }
 }
